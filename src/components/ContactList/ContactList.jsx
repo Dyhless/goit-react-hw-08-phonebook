@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteContact, fetchContacts } from 'redux/contactsApi';
+import { deleteContact, fetchContacts } from 'redux/contacts/contactsApi';
 import { Loader } from 'components/Loader';
 import {
   selectError,
