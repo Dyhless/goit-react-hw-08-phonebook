@@ -6,7 +6,7 @@ import {
   selectError,
   selectIsLoading,
   selectVisibleContacts,
-} from 'redux/selectors';
+} from 'redux/contacts/selectors';
 import {
   List,
   ListItem,
