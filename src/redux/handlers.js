@@ -15,47 +15,44 @@ export const handleRefreshUserRejected = state => {
   state.isRefreshing = false;
 };
 
-export const handleGetAllContactsFulfilled = (state, action) => {
+const handleFulfilled = (state, action) => {
   state.isLoading = false;
   state.error = null;
+};
+
+export const handleGetAllContactsFulfilled = (state, action) => {
+  handleFulfilled(state, action);
   state.items = action.payload;
 };
 
 export const handleAddContactFulfilled = (state, action) => {
-  state.isLoading = false;
-  state.error = null;
+  handleFulfilled(state, action);
   state.items.push(action.payload);
 };
 
 export const handleDeleteContactFulfilled = (state, action) => {
-  state.isLoading = false;
-  state.error = null;
+  handleFulfilled(state, action);
   const index = state.items.findIndex(item => item.id === action.payload.id);
   state.items.splice(index, 1);
 };
 
 export const handleRegisterFulfilled = (state, action) => {
-  state.user = action.payload.user;
-  state.token = action.payload.token;
+  const { user, token } = action.payload;
+  state.user = user;
+  state.token = token;
   state.isLoggedIn = true;
-  state.error = null;
   state.isLoading = false;
+  state.error = null;
 };
 
-export const handleLogInFulfilled = (state, action) => {
-  state.user = action.payload.user;
-  state.token = action.payload.token;
-  state.isLoggedIn = true;
-  state.error = null;
-  state.isLoading = false;
-};
+export const handleLogInFulfilled = handleRegisterFulfilled;
 
 export const handleLogOutFulfilled = state => {
   state.user = { name: null, email: null };
   state.token = null;
   state.isLoggedIn = false;
-  state.error = null;
   state.isLoading = false;
+  state.error = null;
 };
 
 export const handleRefreshUserFulfilled = (state, action) => {

@@ -1,9 +1,7 @@
 import { useState } from 'react';
 import { Formik } from 'formik';
-// import * as Yup from 'yup';
 import { useDispatch } from 'react-redux';
 import { register } from 'redux/authentication/connectionsApi';
-// import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Loader } from 'components/Loader';
 import {
@@ -22,43 +20,39 @@ const defaultValues = {
 
 export const RegisterForm = () => {
   const dispatch = useDispatch();
-  const [determineRegisterBtn, setDetermineRegisterBtn] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleRegisterSubmit = (values, action) => {
-    setDetermineRegisterBtn(true);
-    dispatch(register(values)).then(() => {
-      setDetermineRegisterBtn(false);
-    });
-    action.resetForm();
+  const handleRegisterSubmit = async (values, { resetForm }) => {
+    setIsLoading(true);
+    await dispatch(register(values));
+    setIsLoading(false);
+    resetForm();
   };
 
   return (
-    <Formik
-      initialValues={defaultValues}
-      onSubmit={handleRegisterSubmit}
-      //   validationSchema={schema}
-    >
-      <StyledForm>
-        <Label>
-          Username
-          <Input type="text" name="name" />
-          <StyledError name="name" component="div" />
-        </Label>
-        <Label>
-          Email
-          <Input type="email" name="email" />
-          <StyledError name="email" component="div" />
-        </Label>
-        <Label>
-          Password
-          <Input type="password" name="password" />
-          <StyledError name="password" component="div" />
-        </Label>
-        <Button type="submit" disabled={determineRegisterBtn}>
-          {determineRegisterBtn && <Loader />}
-          Register
-        </Button>
-      </StyledForm>
+    <Formik initialValues={defaultValues} onSubmit={handleRegisterSubmit}>
+      {() => (
+        <StyledForm>
+          <Label>
+            Username
+            <Input type="text" name="name" />
+            <StyledError name="name" component="div" />
+          </Label>
+          <Label>
+            Email
+            <Input type="email" name="email" />
+            <StyledError name="email" component="div" />
+          </Label>
+          <Label>
+            Password
+            <Input type="password" name="password" />
+            <StyledError name="password" component="div" />
+          </Label>
+          <Button type="submit" disabled={isLoading}>
+            {isLoading && <Loader />} Register
+          </Button>
+        </StyledForm>
+      )}
     </Formik>
   );
 };

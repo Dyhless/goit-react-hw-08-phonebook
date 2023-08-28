@@ -17,6 +17,22 @@ import {
   Empty,
 } from './ContactList.styled';
 
+const ContactItem = ({ id, name, phone, onDelete, isLoading }) => (
+  <ListItem key={id}>
+    <ContactInfo>
+      <Name>{name}</Name>
+      <Phone>{phone}</Phone>
+    </ContactInfo>
+    <DeleteButton
+      type="button"
+      onClick={() => onDelete(id)}
+      disabled={isLoading}
+    >
+      {isLoading ? <Loader /> : 'Delete'}
+    </DeleteButton>
+  </ListItem>
+);
+
 export const ContactList = () => {
   const dispatch = useDispatch();
   const visibleContacts = useSelector(selectVisibleContacts);
@@ -27,31 +43,19 @@ export const ContactList = () => {
     dispatch(fetchContacts());
   }, [dispatch]);
 
-  const handleDelete = id => {
-    dispatch(deleteContact(id));
-  };
-
   return (
     <List>
-      {!visibleContacts.length && !error && !isLoading && (
+      {visibleContacts.length === 0 && !error && !isLoading && (
         <Empty>No contacts</Empty>
       )}
       {error && <p>{error}</p>}
-      {visibleContacts.map(({ id, name, phone }) => (
-        <ListItem key={id}>
-          <ContactInfo>
-            <Name>{name}</Name>
-            <Phone>{phone}</Phone>
-          </ContactInfo>
-          <DeleteButton
-            type="button"
-            onClick={() => handleDelete(id)}
-            disabled={isLoading}
-          >
-            {isLoading && <Loader />}
-            Delete
-          </DeleteButton>
-        </ListItem>
+      {visibleContacts.map(contact => (
+        <ContactItem
+          key={contact.id}
+          {...contact}
+          onDelete={id => dispatch(deleteContact(id))}
+          isLoading={isLoading}
+        />
       ))}
     </List>
   );

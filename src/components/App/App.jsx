@@ -22,9 +22,7 @@ export const App = () => {
     dispatch(refreshUser());
   }, [dispatch]);
 
-  return isRefreshing ? (
-    <p>Refreshing user...</p>
-  ) : (
+  return (
     <MainContainer>
       <ToastContainer />
       <Routes>
@@ -35,46 +33,32 @@ export const App = () => {
             element={
               <RestrictedRoute
                 redirectTo="/contacts"
-                component={<Register />}
+                component={<Register key="register" />}
               />
             }
           />
           <Route
             path="/login"
             element={
-              <RestrictedRoute redirectTo="/contacts" component={<Login />} />
+              <RestrictedRoute
+                redirectTo="/contacts"
+                component={<Login key="login" />}
+              />
             }
           />
           <Route
             path="/contacts"
             element={
-              <PrivateRoute redirectTo="/login" component={<Contacts />} />
+              <PrivateRoute
+                redirectTo="/login"
+                component={<Contacts key="contacts" />}
+              />
             }
           />
         </Route>
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
+      {isRefreshing && <p>Refreshing user...</p>}
     </MainContainer>
   );
 };
-
-// import { Container, PhoneFrame, Title, ContentContainer } from './App.styled';
-// import { ContactForm } from '../ContactForm/ContactForm';
-// import ContactList from '../ContactList/ContactList';
-// import Filter from '../Filter/Filter';
-
-// export const App = () => {
-//   return (
-//     <Container>
-//       <PhoneFrame>
-//         <Title>Phonebook</Title>
-//         <ContentContainer>
-//           <ContactForm />
-//           <Title>Contacts</Title>
-//           <Filter />
-//           <ContactList />
-//         </ContentContainer>
-//       </PhoneFrame>
-//     </Container>
-//   );
-// };

@@ -1,91 +1,65 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+// Встановлюємо базовий URL для всіх запитів
 axios.defaults.baseURL = 'https://connections-api.herokuapp.com';
 
-// Utility to add JWT
+// Утилітна функція для додавання JWT у заголовок запиту
 const setAuthHeader = token => {
   axios.defaults.headers.common.Authorization = `Bearer ${token}`;
 };
 
-// Utility to remove JWT
+// Утилітна функція для видалення JWT з заголовка запиту
 const clearAuthHeader = () => {
   axios.defaults.headers.common.Authorization = '';
 };
 
-/*
- * POST @ /users/signup
- * body: { name, email, password }
- */
-export const register = createAsyncThunk(
-  'auth/register',
-  async (credentials, thunkAPI) => {
+// Утилітна функція для створення асинхронної дії автентифікації
+const createAuthAsyncThunk = (name, requestFn) =>
+  createAsyncThunk(`auth/${name}`, async (args, thunkAPI) => {
     try {
-      const response = await axios.post('/users/signup', credentials);
-      // After successful registration, add the token to the HTTP header
+      // Виконуємо запит і отримуємо відповідь
+      const response = await requestFn(args);
+      // Після успішного виконання запиту, додаємо токен до заголовку
       setAuthHeader(response.data.token);
       return response.data;
     } catch (error) {
+      // У разі помилки повертаємо помилку в разі збою
       return thunkAPI.rejectWithValue(error.message);
     }
-  }
+  });
+
+// Створюємо асинхронні дії для реєстрації, входу, виходу та оновлення даних користувача
+export const register = createAuthAsyncThunk('register', credentials =>
+  axios.post('/users/signup', credentials)
 );
 
-/*
- * POST @ /users/login
- * body: { email, password }
- */
-export const logIn = createAsyncThunk(
-  'auth/login',
-  async (credentials, thunkAPI) => {
-    try {
-      const response = await axios.post('/users/login', credentials);
-      // After successful login, add the token to the HTTP header
-      setAuthHeader(response.data.token);
-      return response.data;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
-    }
-  }
+export const logIn = createAuthAsyncThunk('login', credentials =>
+  axios.post('/users/login', credentials)
 );
 
-/*
- * POST @ /users/logout
- * headers: Authorization: Bearer token
- */
-export const logOut = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
+export const logOut = createAuthAsyncThunk('logout', async () => {
+  // Виконуємо запит на виход з облікового запису
+  await axios.post('/users/logout');
+  // Після успішного виходу, видаляємо токен з заголовку
+  clearAuthHeader();
+});
+
+export const refreshUser = createAsyncThunk('auth/refresh', async (_, thunkAPI) => {
+  const state = thunkAPI.getState();
+  const persistedToken = state.auth.token;
+
+  if (persistedToken === null) {
+    return thunkAPI.rejectWithValue('Unable to fetch user');
+  }
+
   try {
-    await axios.post('/users/logout');
-    // After a successful logout, remove the token from the HTTP header
-    clearAuthHeader();
+    setAuthHeader(persistedToken);
+    // Оголошуємо цю функцію асинхронною
+    const response = await axios.get('/users/current');
+    return response.data;
   } catch (error) {
     return thunkAPI.rejectWithValue(error.message);
   }
 });
 
-/*
- * GET @ /users/current
- * headers: Authorization: Bearer token
- */
-export const refreshUser = createAsyncThunk(
-  'auth/refresh',
-  async (_, thunkAPI) => {
-    // Reading the token from the state via getState()
-    const state = thunkAPI.getState();
-    const persistedToken = state.auth.token;
-
-    if (persistedToken === null) {
-      // If there is no token, exit without performing any request
-      return thunkAPI.rejectWithValue('Unable to fetch user');
-    }
-
-    try {
-      // If there is a token, add it to the HTTP header and perform the request
-      setAuthHeader(persistedToken);
-      const response = await axios.get('/users/current');
-      return response.data;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
-    }
-  }
-);

@@ -1,38 +1,41 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-export const fetchContacts = createAsyncThunk(
-  'contacts/fetchContacts',
-  async (_, thunkAPI) => {
+// Створюємо універсальну асинхронну функцію для виконання запитів
+const createAsyncContactAction = (name, requestFn) =>
+  createAsyncThunk(`contacts/${name}`, async (arg, thunkAPI) => {
     try {
-      const response = await axios.get('/contacts');
+      // Виконуємо асинхронний запит і отримуємо відповідь
+      const response = await requestFn(arg);
+      // Повертаємо дані з відповіді як результат дії
       return response.data;
     } catch (error) {
+      // В разі помилки повертаємо помилку з текстом повідомлення
       return thunkAPI.rejectWithValue(error.message);
     }
-  }
+  });
+
+// Створюємо асинхронні дії для взаємодії з контактами
+export const fetchContacts = createAsyncContactAction(
+  'fetchContacts',
+  async () => axios.get('/contacts')
 );
 
-export const addContact = createAsyncThunk(
-  'contacts/addContact',
-  async (contact, thunkAPI) => {
-    try {
-      const response = await axios.post('/contacts', contact);
-      return response.data;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
-    }
-  }
+export const addContact = createAsyncContactAction(
+  'addContact',
+  async (contact) => axios.post('/contacts', contact)
 );
 
-export const deleteContact = createAsyncThunk(
-  'contacts/deleteContact',
-  async (contactId, thunkAPI) => {
-    try {
-      const response = await axios.delete(`/contacts/${contactId}`);
-      return response.data;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
-    }
-  }
+export const deleteContact = createAsyncContactAction(
+  'deleteContact',
+  async (contactId) => axios.delete(`/contacts/${contactId}`)
 );
+
+// Об'єднуємо всі асинхронні дії в один об'єкт для імпорту
+const contactsApi = {
+  fetchContacts,
+  addContact,
+  deleteContact,
+};
+
+export default contactsApi;

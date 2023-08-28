@@ -21,7 +21,6 @@ export const ContactsContainer = styled.div`
 
 export const MainTitle = styled.h1`
   margin-bottom: 20px;
-
   font-size: 32px;
   text-align: center;
   color: white;
@@ -29,7 +28,6 @@ export const MainTitle = styled.h1`
 
 export const ContactsTitle = styled.p`
   margin-bottom: 10px;
-
   font-size: 24px;
   font-weight: 700;
   text-align: center;
@@ -38,7 +36,6 @@ export const ContactsTitle = styled.p`
 
 export const FilterTitle = styled.p`
   margin-bottom: 3px;
-
   font-size: 18px;
   text-align: center;
   color: white;

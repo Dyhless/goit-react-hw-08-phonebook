@@ -1,9 +1,7 @@
 import { useState } from 'react';
 import { Formik } from 'formik';
-// import * as Yup from 'yup';
 import { useDispatch } from 'react-redux';
 import { logIn } from 'redux/authentication/connectionsApi';
-// import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Loader } from 'components/Loader';
 import {
@@ -21,23 +19,17 @@ const defaultValues = {
 
 export const LoginForm = () => {
   const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
 
-  const [determineLogInBtn, setDetermineLogInBtn] = useState(false);
-
-  const handleLoginSubmit = (values, action) => {
-    setDetermineLogInBtn(true);
-    dispatch(logIn(values)).then(() => {
-      setDetermineLogInBtn(false);
-    });
-    action.resetForm();
+  const handleLoginSubmit = async (values, { resetForm }) => {
+    setIsLoading(true);
+    await dispatch(logIn(values));
+    setIsLoading(false);
+    resetForm();
   };
 
   return (
-    <Formik
-      initialValues={defaultValues}
-      onSubmit={handleLoginSubmit}
-      //   validationSchema={schema}
-    >
+    <Formik initialValues={defaultValues} onSubmit={handleLoginSubmit}>
       <StyledForm>
         <Label>
           Email
@@ -49,9 +41,8 @@ export const LoginForm = () => {
           <Input type="password" name="password" />
           <StyledError name="password" component="div" />
         </Label>
-        <Button type="submit" disabled={determineLogInBtn}>
-          {determineLogInBtn && <Loader />}
-          Log In
+        <Button type="submit" disabled={isLoading}>
+          {isLoading && <Loader />} Log In
         </Button>
       </StyledForm>
     </Formik>
