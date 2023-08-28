@@ -17,7 +17,7 @@ import {
   Empty,
 } from './ContactList.styled';
 
-const ContactList = () => {
+export const ContactList = () => {
   const dispatch = useDispatch();
   const visibleContacts = useSelector(selectVisibleContacts);
   const isLoading = useSelector(selectIsLoading);
@@ -56,5 +56,3 @@ const ContactList = () => {
     </List>
   );
 };
-
-export default ContactList;

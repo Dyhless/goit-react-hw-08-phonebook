@@ -8,7 +8,7 @@ export const StyledForm = styled(Form)`
   row-gap: 10px;
   align-items: center;
   padding: 20px;
-  border: 2px black solid;
+  /* border: 2px black solid; */
   border-radius: 5px;
   min-width: 350px;
 `;

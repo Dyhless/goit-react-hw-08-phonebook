@@ -1,34 +1,18 @@
 import styled from '@emotion/styled';
-import { Field, Form, ErrorMessage } from 'formik';
 
-export const StyledForm = styled(Form)`
-  margin-bottom: 30px;
+export const Container = styled.div`
   display: flex;
-  flex-direction: column;
-  row-gap: 10px;
   align-items: center;
-  padding: 20px;
-  border: 2px black solid;
-  border-radius: 5px;
-  min-width: 350px;
+  gap: 12px;
+  margin-right: 12px;
 `;
 
-export const Label = styled.label`
-  display: flex;
-  flex-direction: column;
-  row-gap: 2px;
+export const UserText = styled.p`
+  font-weight: 700;
+`;
+
+export const AccentText = styled.span`
   color: white;
-  max-width: 300px;
-`;
-
-export const Input = styled(Field)`
-  min-width: 300px;
-  min-height: 26px;
-  padding: 1px 5px;
-  font-size: 16px;
-  outline: none;
-  border-radius: 5px;
-  border-width: 0;
 `;
 
 export const Button = styled.button`
@@ -39,7 +23,7 @@ export const Button = styled.button`
   align-items: center;
   column-gap: 5px;
 
-  min-width: 140px;
+  min-width: 80px;
   min-height: 30px;
   margin: 0;
 
@@ -60,10 +44,4 @@ export const Button = styled.button`
     background-color: black;
     border-color: white;
   }
-`;
-
-export const StyledError = styled(ErrorMessage)`
-  font-size: 14px;
-  color: black;
-  max-width: 300px;
 `;
