@@ -1,12 +1,12 @@
-import { Helmet } from 'react-helmet';
+import { HelmetProvider } from 'react-helmet-async';
 import { Container, Title } from './Home.styled';
 
 export default function Home() {
   return (
     <>
-      <Helmet>
+      <HelmetProvider>
         <title>Phonebook</title>
-      </Helmet>
+      </HelmetProvider>
       <Container>
         <Title>Stay Organized, Stay Connected with Phonebook</Title>
       </Container>

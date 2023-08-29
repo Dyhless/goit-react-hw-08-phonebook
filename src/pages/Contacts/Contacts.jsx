@@ -1,10 +1,10 @@
-import { useEffect } from 'react';
-import { Helmet } from 'react-helmet';
+import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { ContactForm } from 'components/ContactForm';
 import { ContactList } from 'components/ContactList';
 import { fetchContacts } from 'redux/contacts/contactsApi';
 import { Filter } from 'components/Filter';
+import { HelmetProvider } from 'react-helmet-async';
 import {
   ContactsContainer,
   ContactsTitle,
@@ -21,11 +21,7 @@ export default function Contacts() {
   }, [dispatch]);
 
   return (
-    <>
-      <Helmet>
-        <title>Your Contacts</title>
-      </Helmet>
-
+    <HelmetProvider>
       <MainContainer>
         <MainTitle>Phonebook</MainTitle>
         <ContactForm />
@@ -36,6 +32,6 @@ export default function Contacts() {
           <ContactList />
         </ContactsContainer>
       </MainContainer>
-    </>
+    </HelmetProvider>
   );
 }
