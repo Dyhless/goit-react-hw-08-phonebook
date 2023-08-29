@@ -1,31 +1,6 @@
 import styled from '@emotion/styled';
 import { Field, Form, ErrorMessage } from 'formik';
 
-const commonButtonStyles = `
-  padding: 5px 10px;
-  font-family: inherit;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  column-gap: 5px;
-  min-width: 140px;
-  min-height: 30px;
-  margin: 0;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-  font-family: inherit;
-  transition: color 250ms cubic-bezier(0.65, 0.05, 0.36, 1),
-    background-color 250ms cubic-bezier(0.65, 0.05, 0.36, 1),
-    border-color 250ms cubic-bezier(0.65, 0.05, 0.36, 1);
-
-  &:hover {
-    color: white;
-    background-color: black;
-    border-color: white;
-  }
-`;
-
 export const StyledForm = styled(Form)`
   margin-bottom: 30px;
   display: flex;
@@ -33,8 +8,8 @@ export const StyledForm = styled(Form)`
   row-gap: 10px;
   align-items: center;
   padding: 20px;
-  border: 2px black solid;
-  border-radius: 5px;
+  border: 1px orange solid;
+  border-radius: 6px;
   min-width: 350px;
 `;
 
@@ -47,23 +22,46 @@ export const Label = styled.label`
 `;
 
 export const Input = styled(Field)`
-  min-width: 300px;
-  min-height: 26px;
-  padding: 1px 5px;
-  font-size: 16px;
-  outline: none;
-  border-radius: 5px;
-  border-width: 0;
+  min-width: 280px;
+  min-height: 22px;
+  padding: 5px;
+  margin-bottom: 5px;
+  margin-top: 5px;
+  border-radius: 6px;
+  font-size: 18px;
+
+  &:hover {
+    border-color: #dcc8f7;
+    
+    transition: color 250ms cubic-bezier(0.65, 0.05, 0.36, 1),
+    background-color 250ms cubic-bezier(0.65, 0.05, 0.36, 1),
+    border-color 250ms cubic-bezier(0.65, 0.05, 0.36, 1);
 `;
 
 export const Button = styled.button`
-  ${commonButtonStyles}
-  background-color: white;
-  border: 2px black solid;
+  padding: 10px 10px;
+  margin-top: 10px;
+  background-color: #007aff;
+  color: white;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  width: 50%;
+  border-radius: 6px;
+
+  transition: color 250ms cubic-bezier(0.65, 0.05, 0.36, 1),
+    background-color 250ms cubic-bezier(0.65, 0.05, 0.36, 1),
+    border-color 250ms cubic-bezier(0.65, 0.05, 0.36, 1);
+
+  &:hover {
+    color: white;
+    background-color: #ff9f09;
+    border-color: white;
+    font-weight: bold;
 `;
 
 export const StyledError = styled(ErrorMessage)`
   font-size: 14px;
-  color: black;
+  color: red;
   max-width: 300px;
 `;

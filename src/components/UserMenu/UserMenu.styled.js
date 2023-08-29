@@ -8,7 +8,7 @@ export const Container = styled.div`
 `;
 
 export const UserText = styled.p`
-  font-weight: 700;
+  font-weight: 900;
 `;
 
 export const AccentText = styled.span`
@@ -16,24 +16,19 @@ export const AccentText = styled.span`
 `;
 
 export const Button = styled.button`
-  padding: 5px 10px;
+  padding: 10px 30px;
   font-family: inherit;
   display: flex;
   justify-content: center;
   align-items: center;
   column-gap: 5px;
-
-  min-width: 80px;
-  min-height: 30px;
-  margin: 0;
-
-  background-color: white;
-  border: 2px black solid;
-  border-radius: 5px;
-  cursor: pointer;
-
+  font-weight: bold;
+  background-color: #4f4f50;
+  color: white;
   font-size: 16px;
-  font-family: inherit;
+  border: none;
+  cursor: pointer;
+  border-radius: 6px;
 
   transition: color 250ms cubic-bezier(0.65, 0.05, 0.36, 1),
     background-color 250ms cubic-bezier(0.65, 0.05, 0.36, 1),
@@ -41,7 +36,6 @@ export const Button = styled.button`
 
   &:hover {
     color: white;
-    background-color: black;
-    border-color: white;
+    background-color: #ff4539;
   }
 `;

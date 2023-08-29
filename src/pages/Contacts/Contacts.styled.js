@@ -14,8 +14,8 @@ export const ContactsContainer = styled.div`
   row-gap: 10px;
   align-items: center;
   padding: 20px;
-  border: 2px black solid;
-  border-radius: 5px;
+  border: 1px orange solid;
+  border-radius: 6px;
   min-width: 350px;
 `;
 

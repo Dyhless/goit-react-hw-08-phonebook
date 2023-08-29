@@ -27,7 +27,7 @@ export default function Contacts() {
         <ContactForm />
         <ContactsTitle>Contacts</ContactsTitle>
         <ContactsContainer>
-          <FilterTitle>Find contacts by name</FilterTitle>
+          <FilterTitle>Search your contact name</FilterTitle>
           <Filter />
           <ContactList />
         </ContactsContainer>

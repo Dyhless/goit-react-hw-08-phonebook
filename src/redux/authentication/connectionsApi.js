@@ -1,65 +1,61 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-// Встановлюємо базовий URL для всіх запитів
 axios.defaults.baseURL = 'https://connections-api.herokuapp.com';
 
-// Утилітна функція для додавання JWT у заголовок запиту
-const setAuthHeader = token => {
-  axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+const token = {
+  set(token) {
+    axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+  },
+  unset() {
+    axios.defaults.headers.common.Authorization = '';
+  },
 };
 
-// Утилітна функція для видалення JWT з заголовка запиту
-const clearAuthHeader = () => {
-  axios.defaults.headers.common.Authorization = '';
-};
-
-// Утилітна функція для створення асинхронної дії автентифікації
-const createAuthAsyncThunk = (name, requestFn) =>
-  createAsyncThunk(`auth/${name}`, async (args, thunkAPI) => {
-    try {
-      // Виконуємо запит і отримуємо відповідь
-      const response = await requestFn(args);
-      // Після успішного виконання запиту, додаємо токен до заголовку
-      setAuthHeader(response.data.token);
-      return response.data;
-    } catch (error) {
-      // У разі помилки повертаємо помилку в разі збою
-      return thunkAPI.rejectWithValue(error.message);
-    }
-  });
-
-// Створюємо асинхронні дії для реєстрації, входу, виходу та оновлення даних користувача
-export const register = createAuthAsyncThunk('register', credentials =>
-  axios.post('/users/signup', credentials)
-);
-
-export const logIn = createAuthAsyncThunk('login', credentials =>
-  axios.post('/users/login', credentials)
-);
-
-export const logOut = createAuthAsyncThunk('logout', async () => {
-  // Виконуємо запит на виход з облікового запису
-  await axios.post('/users/logout');
-  // Після успішного виходу, видаляємо токен з заголовку
-  clearAuthHeader();
+export const register = createAsyncThunk('auth/register', async credentials => {
+  try {
+    const { data } = await axios.post('/users/signup', credentials);
+    token.set(data.token);
+    return data;
+  } catch (error) {
+    console.error('Registration error:', error.response.data);
+    throw error;
+  }
 });
 
-export const refreshUser = createAsyncThunk('auth/refresh', async (_, thunkAPI) => {
+export const logIn = createAsyncThunk('auth/login', async credentials => {
+  try {
+    const { data } = await axios.post('/users/login', credentials);
+    token.set(data.token);
+    return data;
+  } catch (error) {}
+});
+
+export const logOut = createAsyncThunk('auth/logout', async () => {
+  try {
+    await axios.post('/users/logout');
+    token.unset();
+  } catch (error) {}
+});
+
+export const refreshUser = createAsyncThunk('auth/refreshUser', async (_, thunkAPI) => {
   const state = thunkAPI.getState();
   const persistedToken = state.auth.token;
 
   if (persistedToken === null) {
-    return thunkAPI.rejectWithValue('Unable to fetch user');
+    return thunkAPI.rejectWithValue();
   }
 
+  token.set(persistedToken);
   try {
-    setAuthHeader(persistedToken);
-    // Оголошуємо цю функцію асинхронною
-    const response = await axios.get('/users/current');
-    return response.data;
-  } catch (error) {
-    return thunkAPI.rejectWithValue(error.message);
-  }
+    const { data } = await axios.get('/users/current');
+    return data;
+  } catch (error) {}
 });
 
+export const authOperations = {
+  register,
+  logIn,
+  logOut,
+  refreshUser,
+};

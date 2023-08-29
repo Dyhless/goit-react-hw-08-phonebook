@@ -24,9 +24,9 @@ const defaultValues = {
 };
 
 const schema = Yup.object().shape({
-  name: Yup.string().required('Name is required'),
+  name: Yup.string().required('* Name is required'),
   number: Yup.string()
-    .required('Phone number is required')
+    .required('* Phone number is required')
     .matches(
       /^[\d()+-]+$/,
       'Phone number must contain only 0-9 and these symbols: ( ) - +'

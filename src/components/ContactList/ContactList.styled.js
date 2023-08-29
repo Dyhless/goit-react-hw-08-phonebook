@@ -15,18 +15,21 @@ export const ContactInfo = styled.div`
 `;
 
 export const Name = styled.p`
+  font-size: 18px;
   font-weight: bold;
   margin-right: 10px;
-  margin-bottom: 5px;
+  margin-bottom: 0px;
 `;
 
 export const Phone = styled.p`
   color: #007afe;
   font-weight: bold;
+  font-size: 18px;
 `;
 
 export const DeleteButton = styled.button`
-  padding: 5px;
+  padding: 5px 15px;
+  margin-top: 5px;
   margin-bottom: 10px;
   background-color: #4f4f50;
   color: #fff;
@@ -43,8 +46,9 @@ export const DeleteButton = styled.button`
     color: white;
     background-color: #ff4539;
     border-color: white;
+    font-weight: bold;
 `;
 
 export const Empty = styled.p`
-  color: #858585;
+  color: #383838;
 `;

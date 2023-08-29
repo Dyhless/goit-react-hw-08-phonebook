@@ -17,11 +17,11 @@ import {
   Empty,
 } from './ContactList.styled';
 
-const ContactItem = ({ id, name, phone, onDelete, isLoading }) => (
+export const ContactItem = ({ id, name, number, onDelete, isLoading }) => (
   <ListItem key={id}>
     <ContactInfo>
       <Name>{name}</Name>
-      <Phone>{phone}</Phone>
+      <Phone>{number}</Phone>
     </ContactInfo>
     <DeleteButton
       type="button"
