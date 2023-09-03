@@ -1,6 +1,3 @@
-// import React, { useEffect } from 'react';
-// import { useDispatch } from 'react-redux';
-// import { fetchContacts } from 'redux/contacts/contactsApi';
 import { ContactForm } from 'components/ContactForm';
 import { ContactList } from 'components/ContactList';
 import { Filter } from 'components/Filter';
@@ -14,12 +11,6 @@ import {
 } from './Contacts.styled';
 
 export default function Contacts() {
-  // const dispatch = useDispatch();
-
-  // useEffect(() => {
-  //   dispatch(fetchContacts());
-  // }, [dispatch]);
-
   return (
     <HelmetProvider>
       <MainContainer>
