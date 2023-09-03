@@ -22,7 +22,9 @@ export const App = () => {
     dispatch(refreshUser());
   }, [dispatch]);
 
-  return (
+  return isRefreshing ? (
+    <p>Refreshing user...</p>
+  ) : (
     <MainContainer>
       <ToastContainer />
       <Routes>
@@ -33,32 +35,25 @@ export const App = () => {
             element={
               <RestrictedRoute
                 redirectTo="/contacts"
-                component={<Register key="register" />}
+                component={<Register />}
               />
             }
           />
           <Route
             path="/login"
             element={
-              <RestrictedRoute
-                redirectTo="/contacts"
-                component={<Login key="login" />}
-              />
+              <RestrictedRoute redirectTo="/contacts" component={<Login />} />
             }
           />
           <Route
             path="/contacts"
             element={
-              <PrivateRoute
-                redirectTo="/login"
-                component={<Contacts key="contacts" />}
-              />
+              <PrivateRoute redirectTo="/login" component={<Contacts />} />
             }
           />
         </Route>
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
-      {isRefreshing && <p>Refreshing user...</p>}
     </MainContainer>
   );
 };
