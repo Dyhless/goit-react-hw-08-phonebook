@@ -1,9 +1,9 @@
 {
   "files": {
     "main.css": "/goit-react-hw-08-phonebook/static/css/main.4be4af7b.css",
-    "main.js": "/goit-react-hw-08-phonebook/static/js/main.752d5937.js",
+    "main.js": "/goit-react-hw-08-phonebook/static/js/main.33bce2d7.js",
     "static/js/304.cbf75fd2.chunk.js": "/goit-react-hw-08-phonebook/static/js/304.cbf75fd2.chunk.js",
-    "static/js/577.1ac2c361.chunk.js": "/goit-react-hw-08-phonebook/static/js/577.1ac2c361.chunk.js",
+    "static/js/577.d255ee94.chunk.js": "/goit-react-hw-08-phonebook/static/js/577.d255ee94.chunk.js",
     "static/js/525.eb54f65b.chunk.js": "/goit-react-hw-08-phonebook/static/js/525.eb54f65b.chunk.js",
     "static/js/784.68b15e43.chunk.js": "/goit-react-hw-08-phonebook/static/js/784.68b15e43.chunk.js",
     "static/js/907.43415155.chunk.js": "/goit-react-hw-08-phonebook/static/js/907.43415155.chunk.js",
@@ -12,9 +12,9 @@
     "static/js/792.0a8d046e.chunk.js": "/goit-react-hw-08-phonebook/static/js/792.0a8d046e.chunk.js",
     "index.html": "/goit-react-hw-08-phonebook/index.html",
     "main.4be4af7b.css.map": "/goit-react-hw-08-phonebook/static/css/main.4be4af7b.css.map",
-    "main.752d5937.js.map": "/goit-react-hw-08-phonebook/static/js/main.752d5937.js.map",
+    "main.33bce2d7.js.map": "/goit-react-hw-08-phonebook/static/js/main.33bce2d7.js.map",
     "304.cbf75fd2.chunk.js.map": "/goit-react-hw-08-phonebook/static/js/304.cbf75fd2.chunk.js.map",
-    "577.1ac2c361.chunk.js.map": "/goit-react-hw-08-phonebook/static/js/577.1ac2c361.chunk.js.map",
+    "577.d255ee94.chunk.js.map": "/goit-react-hw-08-phonebook/static/js/577.d255ee94.chunk.js.map",
     "525.eb54f65b.chunk.js.map": "/goit-react-hw-08-phonebook/static/js/525.eb54f65b.chunk.js.map",
     "784.68b15e43.chunk.js.map": "/goit-react-hw-08-phonebook/static/js/784.68b15e43.chunk.js.map",
     "907.43415155.chunk.js.map": "/goit-react-hw-08-phonebook/static/js/907.43415155.chunk.js.map",
@@ -24,6 +24,6 @@
   },
   "entrypoints": [
     "static/css/main.4be4af7b.css",
-    "static/js/main.752d5937.js"
+    "static/js/main.33bce2d7.js"
   ]
 }
