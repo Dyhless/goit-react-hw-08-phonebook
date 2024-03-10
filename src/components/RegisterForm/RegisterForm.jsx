@@ -1,16 +1,16 @@
-import { useState } from 'react';
-import { Formik } from 'formik';
-import { useDispatch } from 'react-redux';
-import { register } from 'redux/authentication/connectionsApi';
-import 'react-toastify/dist/ReactToastify.css';
-import { Loader } from 'components/Loader';
+import { useState } from 'react'; // Импорт хука useState для управления состоянием
+import { Formik } from 'formik'; // Импорт Formik для управления состоянием формы
+import { useDispatch } from 'react-redux'; // Импорт хука useDispatch для отправки действий Redux
+import { register } from 'redux/authentication/connectionsApi'; // Импорт действия для регистрации пользователя
+import 'react-toastify/dist/ReactToastify.css'; // Импорт CSS для уведомлений toast
+import { Loader } from 'components/Loader'; // Импорт компонента Loader для отображения индикатора загрузки
 import {
   Button,
   Input,
   Label,
   StyledForm,
   StyledError,
-} from './RegisterForm.styled';
+} from './RegisterForm.styled'; // Импорт стилизованных компонентов для формы регистрации
 
 const defaultValues = {
   name: '',
@@ -19,14 +19,14 @@ const defaultValues = {
 };
 
 export const RegisterForm = () => {
-  const dispatch = useDispatch();
-  const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch(); // Инициализация хука useDispatch для отправки действий
+  const [isLoading, setIsLoading] = useState(false); // Инициализация состояния для отслеживания загрузки
 
   const handleRegisterSubmit = async (values, { resetForm }) => {
-    setIsLoading(true);
-    await dispatch(register(values));
-    setIsLoading(false);
-    resetForm();
+    setIsLoading(true); // Установка состояния isLoading в true при отправке формы
+    await dispatch(register(values)); // Отправка действия для регистрации пользователя
+    setIsLoading(false); // Сброс состояния isLoading в false после завершения загрузки
+    resetForm(); // Сброс формы после успешной регистрации
   };
 
   return (
@@ -35,21 +35,28 @@ export const RegisterForm = () => {
         <StyledForm>
           <Label>
             Username
-            <Input type="text" name="name" />
-            <StyledError name="name" component="div" />
+            {/* Поле ввода для имени пользователя */}
+            <Input type="text" name="name" />{' '}
+            {/* Отображение сообщения об ошибке для поля имени пользователя */}
+            <StyledError name="name" component="div" />{' '}
           </Label>
           <Label>
             Email
-            <Input type="email" name="email" />
-            <StyledError name="email" component="div" />
+            {/* Поле ввода для электронной почты */}
+            <Input type="email" name="email" />{' '}
+            {/* Отображение сообщения об ошибке для поля email */}
+            <StyledError name="email" component="div" />{' '}
           </Label>
           <Label>
             Password
-            <Input type="password" name="password" />
-            <StyledError name="password" component="div" />
+            {/* Поле ввода для пароля */}
+            <Input type="password" name="password" />{' '}
+            {/* Отображение сообщения об ошибке для поля password */}
+            <StyledError name="password" component="div" />{' '}
           </Label>
           <Button type="submit" disabled={isLoading}>
-            {isLoading && <Loader />} Register
+            {/* Отображение индикатора загрузки во время отправки формы */}
+            {isLoading && <Loader />} Register{' '}
           </Button>
         </StyledForm>
       )}

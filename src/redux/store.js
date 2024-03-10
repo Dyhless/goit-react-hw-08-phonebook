@@ -6,35 +6,33 @@ import { authReducer } from 'redux/authentication/authenticationSlice';
 import { contactsReducer } from './contacts/contactsSlice';
 import { filterReducer } from './filter/filterSlice';
 
-// Створюємо middleware для redux-persist
+// Создаем middleware для redux-persist
 const middleware = getDefaultMiddleware({
   thunk: true, // Включаем redux-thunk
   serializableCheck: {
-    // Ігноруємо деякі дії, які redux-persist не може обробити
-    ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+    ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER], // Игнорируем определенные действия, которые redux-persist не может обработать
   },
 });
 
-// Конфігурація для збереження аутентифікаційних даних
+// Конфигурация для сохранения аутентификационных данных
 const authPersistConfig = {
-  key: 'auth',       // Ключ для локального сховища
-  storage,           // Використовувати вказане сховище (localStorage)
-  whitelist: ['token'], // Список полів, які зберігатимуться
+  key: 'auth',       // Ключ для локального хранилища
+  storage,           // Использовать указанное хранилище (localStorage)
+  whitelist: ['token'], // Список полей, которые будут сохранены
 };
 
-// Кореневий редуктор, де поєднуються всі редуктори
+// Корневой редуктор, где объединяются все редукторы
 const rootReducer = {
-  contacts: contactsReducer, // Редуктор контактів
-  filter: filterReducer,     // Редуктор фільтрації
-  auth: persistReducer(authPersistConfig, authReducer), // Редуктор аутентифікації з підтримкою збереження
+  contacts: contactsReducer, // Редуктор контактов
+  filter: filterReducer,     // Редуктор фильтрации
+  auth: persistReducer(authPersistConfig, authReducer), // Редуктор аутентификации с поддержкой сохранения
 };
 
-// Створюємо стор та постійне сховище
+// Создаем хранилище и постоянное хранилище
 export const store = configureStore({
-  reducer: rootReducer,         // Використовуємо кореневий редуктор
-  middleware,                   // Використовуємо middleware
-  devTools: process.env.NODE_ENV === 'development', // Включаємо devTools у режимі розробки
+  reducer: rootReducer,         // Используем корневой редуктор
+  middleware,                   // Используем middleware
+  devTools: process.env.NODE_ENV === 'development', // Включаем devTools в режиме разработки
 });
 
-// Створюємо постійне сховище
-export const persistor = persistStore(store);
+export const persistor = persistStore(store); // Создаем постоянное хранилище
