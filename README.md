@@ -9,10 +9,10 @@ as a starting point for your application.
 - The `react-hw-08-phonebook` repository has been created.
 - When turning in homework, there are links to: the source files and working
   pages of each project on `GitHub Pages'.
-- There are no errors or warnings in the console when running the job code
+- There are no errors or warnings in the console when running the job code.
 - For each component has a separate folder with a React component file and
-  styles file
-- For the components described propTypes
+  styles file.
+- For the components described propTypes.
 
 ## Contact Book
 
