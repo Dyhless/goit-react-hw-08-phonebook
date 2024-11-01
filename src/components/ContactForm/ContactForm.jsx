@@ -26,14 +26,14 @@ const defaultValues = {
 };
 
 const schema = Yup.object().shape({
-  name: Yup.string().required('* Имя обязательно для заполнения'),
+  name: Yup.string().required('* Name is required'),
   number: Yup.string()
-    .required('* Номер телефона обязателен для заполнения')
+    .required('* Phone number is required')
     .matches(
       /^[\d()+-]+$/,
-      'Номер телефона должен содержать только цифры и следующие символы: ( ) - +'
+      'Phone number can only contain digits and the following symbols: ( ) - +'
     )
-    .min(8, 'Номер телефона должен содержать минимум 8 символов'),
+    .min(8, 'Phone number must be at least 8 characters long'),
 });
 
 export const ContactForm = () => {
