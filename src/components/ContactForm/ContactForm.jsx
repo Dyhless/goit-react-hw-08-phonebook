@@ -74,18 +74,18 @@ export const ContactForm = () => {
     >
       <StyledForm>
         <Label>
-          Имя
+          Name
           <Input type="text" name="name" />
           <StyledError name="name" component="div" />
         </Label>
         <Label>
-          Номер телефона
+          Phone number
           <Input type="tel" name="number" />
           <StyledError name="number" component="div" />
         </Label>
         <Button type="submit" disabled={isLoading && determineAddBtn}>
           {isLoading && determineAddBtn && <Loader />}
-          Добавить контакт
+          Add contact
         </Button>
       </StyledForm>
     </Formik>
