@@ -1,7 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-// Создайте общую функцию для обработки асинхронных запросов
 const handleAsyncRequest = async (url, data, thunkAPI, method = 'get') => {
   try {
     const response = await axios[method](url, data);

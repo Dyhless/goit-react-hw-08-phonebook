@@ -6,7 +6,7 @@ Use this
 R[eact project template](https://github.com/goitacademy/react-homework-template/blob/main/README.en.md)
 as a starting point for your application.
 
-- The `react-hw-08-phonebook` repository has been created.
+- The `phonebook` repository has been created.
 - When turning in homework, there are links to: the source files and working
   pages of each project on `GitHub Pages'.
 - There are no errors or warnings in the console when running the job code.

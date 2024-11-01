@@ -1,19 +1,17 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { clearTempContacts } from 'redux/contacts/contactsSlice';
 
 axios.defaults.baseURL = 'https://connections-api.herokuapp.com';
 
-// Утилита для добавления JWT в заголовок
 const setAuthHeader = (token) => {
   axios.defaults.headers.common.Authorization = `Bearer ${token}`;
 };
 
-// Утилита для удаления JWT из заголовка
 const clearAuthHeader = () => {
   axios.defaults.headers.common.Authorization = '';
 };
 
-// Создание асинхронной операции для регистрации
 export const register = createAsyncThunk('auth/register', async (credentials, thunkAPI) => {
   try {
     const response = await axios.post('/users/signup', credentials);
@@ -24,10 +22,10 @@ export const register = createAsyncThunk('auth/register', async (credentials, th
   }
 });
 
-// Создание асинхронной операции для входа
 export const logIn = createAsyncThunk('auth/login', async (credentials, thunkAPI) => {
   try {
     const response = await axios.post('/users/login', credentials);
+    thunkAPI.dispatch(clearTempContacts()); 
     setAuthHeader(response.data.token);
     return response.data;
   } catch (error) {
@@ -35,7 +33,6 @@ export const logIn = createAsyncThunk('auth/login', async (credentials, thunkAPI
   }
 });
 
-// Создание асинхронной операции для выхода
 export const logOut = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
   try {
     await axios.post('/users/logout');
@@ -45,7 +42,6 @@ export const logOut = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
   }
 });
 
-// Создание асинхронной операции для обновления данных о пользователе
 export const refreshUser = createAsyncThunk('auth/refresh', async (_, thunkAPI) => {
   const state = thunkAPI.getState();
   const persistedToken = state.auth.token;

@@ -12,8 +12,20 @@ const contactsSlice = createSlice({
   name: 'contacts',
   initialState: {
     items: [],
+    tempItems: [], 
     isLoading: false,
     error: null,
+  },
+  reducers: {
+    addTempContact: (state, action) => {
+      state.tempItems.push(action.payload); 
+    },
+    deleteTempContact: (state, action) => {
+      state.tempItems = state.tempItems.filter(contact => contact.id !== action.payload);
+    },
+    clearTempContacts: (state) => {
+      state.tempItems = []; 
+    }
   },
   extraReducers: builder => {
     builder
@@ -29,4 +41,5 @@ const contactsSlice = createSlice({
   },
 });
 
+export const { addTempContact, deleteTempContact, clearTempContacts } = contactsSlice.actions;
 export const contactsReducer = contactsSlice.reducer;

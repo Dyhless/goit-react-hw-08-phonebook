@@ -1,29 +1,30 @@
-import { useState } from 'react'; // Импорт хука useState для управления состоянием в функциональных компонентах
-import { useDispatch, useSelector } from 'react-redux'; // Импорт хуков useDispatch и useSelector для управления состоянием Redux
-import { Formik } from 'formik'; // Импорт Formik для управления состоянием формы
-import * as Yup from 'yup'; // Импорт Yup для валидации формы
-import { toast } from 'react-toastify'; // Импорт toast для отображения уведомлений
-import 'react-toastify/dist/ReactToastify.css'; // Импорт CSS для уведомлений toast
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Formik } from 'formik';
+import * as Yup from 'yup';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import {
   selectIsLoading,
   selectVisibleContacts,
-} from 'redux/contacts/selectors'; // Импорт селекторов Redux
-import { addContact } from 'redux/contacts/contactsApi'; // Импорт действия Redux для добавления контактов
+} from 'redux/contacts/selectors';
+import { addContact } from 'redux/contacts/contactsApi';
+import { addTempContact } from 'redux/contacts/contactsSlice';
+import { selectIsLoggedIn } from 'redux/authentication/selectors';
 import {
   Button,
   Input,
   Label,
   StyledForm,
   StyledError,
-} from './ContactForm.styled'; // Импорт стилизованных компонентов для формы контакта
-import { Loader } from 'components/Loader'; // Импорт компонента Loader для отображения индикатора загрузки
+} from './ContactForm.styled';
+import { Loader } from 'components/Loader';
 
 const defaultValues = {
   name: '',
   number: '',
 };
 
-// Определение схемы валидации для полей формы
 const schema = Yup.object().shape({
   name: Yup.string().required('* Имя обязательно для заполнения'),
   number: Yup.string()
@@ -36,55 +37,54 @@ const schema = Yup.object().shape({
 });
 
 export const ContactForm = () => {
-  const dispatch = useDispatch(); // Инициализация хука useDispatch для отправки действий
-  const contacts = useSelector(selectVisibleContacts); // Получение контактов из хранилища Redux
-  const isLoading = useSelector(selectIsLoading); // Получение состояния загрузки из хранилища Redux
-  const [determineAddBtn, setDetermineAddBtn] = useState(false); // Инициализация состояния для определения, следует ли отключить кнопку добавления
+  const dispatch = useDispatch();
+  const contacts = useSelector(selectVisibleContacts);
+  const isLoading = useSelector(selectIsLoading);
+  const isLoggedIn = useSelector(selectIsLoggedIn);
+  const [determineAddBtn, setDetermineAddBtn] = useState(false);
 
   const handleSubmitForm = (values, action) => {
-    setDetermineAddBtn(true); // Установка состояния determineAddBtn в true для отключения кнопки добавления
+    setDetermineAddBtn(true);
     const isInContacts = contacts.some(
-      // Проверка, существует ли контакт уже в списке контактов
       ({ name }) => name.toLowerCase() === values.name.toLowerCase()
     );
 
     if (isInContacts) {
-      return toast.warn(`${values.name} уже присутствует в контактах.`); // Отображение предупреждающего уведомления, если контакт уже существует
+      setDetermineAddBtn(false);
+      return toast.warn(`${values.name} уже присутствует в контактах.`);
     }
 
-    dispatch(addContact(values)).then(() => {
-      // Отправка действия addContact для добавления контакта
-      setDetermineAddBtn(false); // Сброс состояния determineAddBtn в false после добавления контакта
-    });
-    action.resetForm(); // Сброс формы после отправки
+    if (isLoggedIn) {
+      dispatch(addContact(values)).then(() => {
+        setDetermineAddBtn(false);
+      });
+    } else {
+      dispatch(addTempContact({ ...values, id: Date.now().toString() }));
+      setDetermineAddBtn(false);
+    }
+
+    action.resetForm();
   };
 
   return (
-    <Formik // Обертка Formik для управления состоянием формы
+    <Formik
       initialValues={defaultValues}
-      onSubmit={handleSubmitForm} // Обработка отправки формы
-      validationSchema={schema} // Применение схемы валидации к полям формы
+      onSubmit={handleSubmitForm}
+      validationSchema={schema}
     >
       <StyledForm>
         <Label>
           Имя
-          <Input type="text" name="name" />{' '}
-          {/* Поле ввода для имени контакта */}
-          <StyledError name="name" component="div" />{' '}
-          {/* Отображение сообщения об ошибке для поля имени */}
+          <Input type="text" name="name" />
+          <StyledError name="name" component="div" />
         </Label>
         <Label>
           Номер телефона
-          <Input type="tel" name="number" />{' '}
-          {/* Поле ввода для номера телефона контакта */}
-          <StyledError name="number" component="div" />{' '}
-          {/* Отображение сообщения об ошибке для поля номера телефона */}
+          <Input type="tel" name="number" />
+          <StyledError name="number" component="div" />
         </Label>
         <Button type="submit" disabled={isLoading && determineAddBtn}>
-          {' '}
-          {/* Кнопка отправки для добавления контакта */}{' '}
-          {isLoading && determineAddBtn && <Loader />}{' '}
-          {/* Отображение загрузчика, если форма отправляется */}
+          {isLoading && determineAddBtn && <Loader />}
           Добавить контакт
         </Button>
       </StyledForm>
